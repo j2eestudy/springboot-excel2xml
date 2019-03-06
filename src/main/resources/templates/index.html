@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="./jquery-3.3.1.js"></script>
+</head>
+<body>
+<div>
+    <div>
+        <input type="file" accept=".xlsx,.xls" class="file">
+        <button class="btn">上传</button>
+    </div>
+    <ul class="dls"></ul>
+</div>
+<script>
+    $('.btn').on('click', function () {
+        var files = $('.file').prop('files');
+        var data = new FormData();
+        data.append('file', files[0]);
+
+        $.ajax({
+            url: '/excel/import',
+            data: data,
+            type: 'post',
+            cache: false,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                //data: {data: [{name: '1',url: '/a'}]}
+                var dls = data.data;
+                dls.forEach(function (item) {
+                    $('.dls').append('<li><a href=' + item.url + '>' + item.fileName + '</a></li>')
+                })
+            },
+            error: function (xml, status, errMsg) {
+                alert(errMsg)
+            }
+        })
+    })
+</script>
+</body>
+</html>

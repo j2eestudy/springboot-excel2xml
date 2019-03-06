@@ -1,0 +1,11 @@
+server:
+  port: 8081
+spring:
+  mvc:
+    view:
+      suffix: .html
+      prefix: classpath:/templates/
+
+file:
+  downloadPath: http://127.0.0.1:8081/filedownload?uuid=
+  uploadPath: D:\excel2xml
