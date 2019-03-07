@@ -64,10 +64,10 @@ public class ExcelResolveService {
 
                 ShowVO vo = new ShowVO();
                 vo.setFileName(file.getName());
-                vo.setUrl(downloadPath+uuid);
+                vo.setUrl(downloadPath + uuid);
                 vo.setUuid(uuid);
 
-                FileCache.set(uuid,filePath);
+                FileCache.set(uuid, filePath);
 
                 showVOS.add(vo);
 
@@ -156,7 +156,7 @@ public class ExcelResolveService {
          */
         String[] elements = {"cellname", "formid", "enabled", "validate", "quarter", "keyword", "datatype",
                 "format", "canimport", "condition", "isCombox", "colspan", "rowspan", "color", "value",
-                "fml", "isshow", "width", "istitle", "ismeasure", "iseidter", "validatemsg"};
+                "fml", "isshow", "width", "istitle", "ismeasure", "iseidter", "validatemsg","textalign"};
         List<String> names = Arrays.asList(elements);
         for (int i = 0; i < names.size(); i++) {
             Element item = new Element(names.get(i));
@@ -187,6 +187,8 @@ public class ExcelResolveService {
                 } else {
                     item.setText("");
                 }
+            } else if ("textalign".equals(names.get(i))) {
+                item.setText("left");
             } else {
                 item.setText("");
             }
