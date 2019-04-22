@@ -103,32 +103,25 @@ public class ExcelResolveService {
                     root.addContent(rowElement);
                     for (int k = 0; k < cellNum; k++) {
                         XSSFCell cell = row.getCell((short) k);
-
                         if (cell == null) {
-                            cellNum++;//如果存在空列，那么cellNum增加1，这一步很重要。
                             continue;
+                        }
+                        String mergedRegion = isMergedRegion(shee, j, k);
+                        if (mergedRegion == null) {
+                            Element element = setValueElements(cell);
+                            rowElement.addContent(element);
                         } else {
-
-                            String mergedRegion = isMergedRegion(shee, j, k);
-                            if (mergedRegion == null) {
+                            if (mergedRegionMap.containsKey(mergedRegion)) {
+                                continue;
+                            } else {
+                                mergedRegionMap.put(mergedRegion, cell);
+                                String[] strs = mergedRegion.split(",");
+                                colLocal.set(Integer.valueOf(strs[1]) - Integer.valueOf(strs[0]));
+                                rowLocal.set(Integer.valueOf(strs[3]) - Integer.valueOf(strs[2]));
                                 Element element = setValueElements(cell);
                                 rowElement.addContent(element);
-                            } else {
-                                if (mergedRegionMap.containsKey(mergedRegion)) {
-                                    continue;
-                                } else {
-                                    mergedRegionMap.put(mergedRegion, cell);
-                                    String[] strs = mergedRegion.split(",");
-                                    colLocal.set(Integer.valueOf(strs[1]) - Integer.valueOf(strs[0]));
-                                    rowLocal.set(Integer.valueOf(strs[3]) - Integer.valueOf(strs[2]));
-                                    Element element = setValueElements(cell);
-                                    rowElement.addContent(element);
-                                }
                             }
-
-
                         }
-
                     }
 
                 }
